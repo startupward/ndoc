@@ -1,0 +1,38 @@
+{
+  "name": "ndoc",
+  "version": "1.0.0",
+  "description": "a simple client for the ndoc api. featuring an importable node script and a cli mode",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/startupward/ndoc.git"
+  },
+  "bin": {
+    "ndoc": "./cli.js"
+  },
+  "keywords": [
+    "pdf",
+    "generation",
+    "document",
+    "templates",
+    "templating",
+    "transparent",
+    "png",
+    "documents",
+    "hosting"
+  ],
+  "author": "lasergoat",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/startupward/ndoc/issues"
+  },
+  "homepage": "https://github.com/startupward/ndoc#readme",
+  "dependencies": {
+    "inquirer": "^3.0.6",
+    "lodash": "^4.17.4",
+    "pretty-error": "^2.0.3"
+  }
+}
