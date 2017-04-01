@@ -8,6 +8,13 @@ CLI Usage
 ```
 npm run link
 
+# until we actually host it on npm
+```
+
+```
+# set up your api key!
+ndoc key
+
 ndoc --data "{\"var1\": \"Test\"}" --template "<p>{{var1}}</p>"
 
 # DEV env var
