@@ -35,6 +35,9 @@
     "command-line-args": "^4.0.2",
     "inquirer": "^3.0.6",
     "lodash": "^4.17.4",
-    "pretty-error": "^2.0.3"
+    "node-uuid": "^1.4.8",
+    "pretty-error": "^2.0.3",
+    "validator": "^7.0.0",
+    "yamljs": "^0.2.8"
   }
 }
