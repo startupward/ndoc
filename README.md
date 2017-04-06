@@ -25,7 +25,7 @@ DEV=true ndoc ...
 NodeJS Usage:
 ---
 
-```
+```JSX
 const ndoc = require('ndoc');
 
 ndoc.email(process.env.NDOC_EMAIL);
