@@ -28,14 +28,13 @@ NodeJS Usage:
 ```JSX
 const ndoc = require('ndoc');
 
-ndoc.email(process.env.NDOC_EMAIL);
-ndoc.key(process.env.NDOC_KEY);
-
-ndoc.generate({
-  "document_content": "<div>{{myVar}} from ndoc</div>",
-  "document_filename": "ndoc-test.pdf",
-  "data": {
-    "myVar": "Hello World"
+ndoc({
+  email: process.env.NDOC_EMAIL,
+  key: process.env.NDOC_KEY,
+  template: "<div>{{myVar}} from ndoc</div>",
+  filename: "ndoc-test.pdf",
+  data: {
+    myVar: "Hello World"
   }
 }).then(function(res) {
   console.log(res.id, res.result_url);
