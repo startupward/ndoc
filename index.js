@@ -62,11 +62,11 @@ module.exports = function(config) {
       status: 500,
       message: err || 'Unknown Error'
     };
-    // const message = get(err, 'response.data', defaultError);
+    const errorObject = get(err, 'response.data', defaultError);
     // const status = get(err, 'response.status');
     if (options.debug) {
       console.log("Response:");
     }
-    throw defaultError;
+    throw errorObject;
   });
 };
