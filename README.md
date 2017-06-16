@@ -19,6 +19,16 @@ ndoc --data "{\"var1\": \"Test\"}" --template "<p>{{var1}}</p>"
 
 # DEV env var
 DEV=true ndoc ...
+
+# make a document (long form of ndoc [-options])
+ndoc generate [-options]
+
+# see a document
+ndoc get [id]
+
+# list by page DESC
+ndoc list [-page=1]
+
 ```
 
 
