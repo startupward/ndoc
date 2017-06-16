@@ -5,14 +5,10 @@ const exec = require('child_process').exec;
 const inquirer = require('inquirer');
 const validator = require('validator');
 const uuid = require('node-uuid');
-const yaml = require('yamljs');
-const fs = require('fs');
-const path = require('path');
-const os = require('os');
-
-const configYamlPath = path.join(os.homedir(), '.ndoc.yml');
 
 const pe = new PrettyError();
+const config = require('../lib/config')();
+const copy = require('../lib/copy');
 
 // assume that many people have a global git email set
 function attemptToFindEmail() {
@@ -24,21 +20,6 @@ function attemptToFindEmail() {
         return resolve(null);
       }
       resolve(stdout.trim());
-    });
-  })
-}
-
-// save a yaml config object to a file
-function saveYamlConfig(config) {
-  return new Promise(function(resolve, reject) {
-    const yamlString = yaml.stringify(config, 4);
-
-    fs.writeFile(configYamlPath, yamlString, {flag: 'w'}, function(err) {
-      if(err) {
-        return reject(err);
-      }
-
-      return resolve();
     });
   })
 }
@@ -77,6 +58,7 @@ module.exports = function() {
         type: 'confirm',
         name: 'hasaccount',
         message: 'Do you already have an ndoc account?',
+        default: false,
       },
       {
         type: 'input',
@@ -94,16 +76,19 @@ module.exports = function() {
         console.log(`\nMade you a new key! ${key}\n`);
       }
 
-      saveYamlConfig({
-        message: 'daniel is building a cool app',
-        email: answers.confirmemail ? state.email : answers.email,
-        key: key,
-        created: new Date()
-      }).then(function() {
-        console.log('Saved Config File: '+ configYamlPath);
-      }).catch(function(err) {
-        console.error(err);
-      })
+      return config.backup().then(function() {
+        return config.save({
+          message: 'daniel is building a cool app',
+          email: answers.confirmemail ? state.email : answers.email,
+          key,
+          created: new Date()
+        }).then(function() {
+          console.log(`Saved Config File: ${config.path}`);
+          return copy(key).then(function() {
+            console.log(`Copied ${key} to clipboard!`);
+          });
+        });
+      });
 
     }).catch(function(err) {
       console.log(err);
