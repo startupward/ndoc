@@ -18,6 +18,7 @@ ndoc key
 ndoc --data "{\"var1\": \"Test\"}" --template "<p>{{var1}}</p>"
 
 # DEV env var
+# will automatically point to your local api instead
 DEV=true ndoc ...
 
 # make a document (long form of ndoc [-options])
