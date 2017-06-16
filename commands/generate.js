@@ -1,26 +1,12 @@
 
-const os = require('os');
-const path = require('path');
 const axios = require('axios');
 const get = require('lodash/get');
 const find = require('lodash/find');
 const commandLineArgs = require('command-line-args');
-const yaml = require('yamljs');
 
-const configYamlPath = path.join(os.homedir(), '.ndoc.yml');
-
-const IS_RELEASE = get(process, 'env.DEV') !== 'true';
-const docApiUrl = IS_RELEASE ?
-  `https://docs.startupward.com/docs` :
-  `http://localhost:3000/docs`;
-
-// try to find email and password
-var config = {};
-try {
-  config = yaml.load(configYamlPath);
-} catch (e) {
-  // do nothing, no config file
-}
+const config = require('../lib/config')().config;
+const docApiUrl = require('../lib/apiurl')();
+const copy = require('../lib/copy');
 
 const optionDefinitions = [
   { name: 'inputfile',   alias: 'i', type: String,  multiple: true, defaultOption: true},
@@ -56,6 +42,7 @@ module.exports = function() {
   };
 
   if (options.verbose) {
+    console.log(`Using ${docApiUrl}`);
     console.log("Request:\n", requestData, "\n");
   }
 
@@ -74,6 +61,11 @@ module.exports = function() {
     data: requestData,
   }).then(function(response) {
     console.log(response.data);
+
+    const url = get(response, 'data.result_url', '');
+    copy(url).then(function() {
+      console.log(`\nCopied ${url} to clipboard!\n`);
+    })
   }).catch(function(err) {
     const defaultError = {
       status: 500,
